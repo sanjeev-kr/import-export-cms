@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright 2022 Sanjeev Kumar
+ * NOTICE OF LICENSE
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @category  Sanjeev
+ * @package   Sanjeev_ImportExportCms
+ * @copyright Copyright (c) 2022
+ * @license   http://www.apache.org/licenses/LICENSE-2.0
+ */
+-->
+
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">importexportcms_cmsimport_form.cmsimport_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Cms File Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="reset" class="Sanjeev\ImportExportCms\Block\Adminhtml\Button\Reset"/>
+            <button name="save" class="Sanjeev\ImportExportCms\Block\Adminhtml\Button\Save"/>
+        </buttons>
+        <namespace>importexportcms_cmsimport_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>importexportcms_cmsimport_form.cmsimport_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="cmsimport_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="importexportcms/cms/save"/>
+        </settings>
+        <dataProvider class="ImportExportCmsCmsfileUiFormDataProvider" name="cmsimport_form_data_source" />
+    </dataSource>
+    <fieldset name="general">
+
+        <settings>
+            <label translate="true">Import File</label>
+        </settings>
+
+        <field name="import_type" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">import_type</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>select</dataType>
+                <label translate="true">Import Type</label>
+                <dataScope>import_type</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <caption translate="true">-- Please Select --</caption>
+                        <options>
+                            <option name="1" xsi:type="array">
+                                <item name="value" xsi:type="string">cms_page</item>
+                                <item name="label" xsi:type="string">Cms Page</item>
+                            </option>
+                            <option name="2" xsi:type="array">
+                                <item name="value" xsi:type="string">cms_block</item>
+                                <item name="label" xsi:type="string">Cms Block</item>
+                            </option>
+                        </options>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+
+        <field name="csvfile" formElement="fileUploader">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Csv File</label>
+                <dataScope>csvfile</dataScope>
+                <elementTmpl>ui/form/element/uploader/uploader</elementTmpl>
+            </settings>
+            <formElements>
+                <fileUploader>
+                    <settings>
+                        <uploaderConfig>
+                            <param xsi:type="url" name="url" path="importexportcms/cms/upload/field/csvfile"/>
+                        </uploaderConfig>
+                    </settings>
+                </fileUploader>
+            </formElements>
+        </field>
+
+    </fieldset>
+</form>
