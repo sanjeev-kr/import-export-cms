@@ -3,7 +3,7 @@
   "description": "magento 2 extension for import and export of cms blocks and pages.",
   "version": "2.3.0",
   "require": {
-    "magento/module-cms": "103.0.*",
+    "magento/module-cms": "103.0.*||104.0.*",
     "magento/module-backend": "*",
     "magento/module-ui": "*",
     "magento/framework": "*",

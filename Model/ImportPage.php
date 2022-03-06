@@ -24,6 +24,7 @@
 namespace Sanjeev\ImportExportCms\Model;
 
 use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Cms\Api\Data\PageInterface;
 
 class ImportPage

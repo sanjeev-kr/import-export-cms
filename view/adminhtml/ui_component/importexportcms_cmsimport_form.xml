@@ -51,7 +51,7 @@
         <settings>
             <submitUrl path="importexportcms/cms/save"/>
         </settings>
-        <dataProvider class="ImportExportCmsCmsfileUiFormDataProvider" name="cmsimport_form_data_source" />
+        <dataProvider class="Sanjeev\ImportExportCms\Ui\Form\DataProvider" name="cmsimport_form_data_source" />
     </dataSource>
     <fieldset name="general">
 
