@@ -23,31 +23,44 @@
 
 
 namespace Sanjeev\ImportExportCms\Model\ResourceModel;
+use Magento\Cms\Api\Data\BlockInterface;
+use Magento\Cms\Api\Data\PageInterface;
 
 class Helper extends \Magento\Framework\DB\Helper
 {
+    /**
+    * @var \Magento\Framework\EntityManager\MetadataPool
+    */
+    protected $metadataPool;
 
     /**
      * @param \Magento\Framework\App\ResourceConnection $resource
+     * @param \Magento\Framework\EntityManager\MetadataPool $metadataPool
      * @param string $modulePrefix
      */
-    public function __construct(\Magento\Framework\App\ResourceConnection $resource, $modulePrefix = 'exportimportcms')
+    public function __construct(
+    \Magento\Framework\App\ResourceConnection $resource,
+    \Magento\Framework\EntityManager\MetadataPool $metadataPool,
+    $modulePrefix = 'exportimportcms')
     {
         parent::__construct($resource, $modulePrefix);
+        $this->metadataPool = $metadataPool;
     }
 
     public function getPages(array $pageIds = [], $columns = ['*']): array
     {
         $connection = $this->getConnection();
         $select = $connection->select();
-        $cmsPageTable = $connection->getTableName("cms_page");
-        $storeTable = $connection->getTableName("cms_page_store");
+        $cmsPageTable = $this->_resource->getTableName("cms_page");
+        $storeTable = $this->_resource->getTableName("cms_page_store");
+        $entityMetadata = $this->metadataPool->getMetadata(PageInterface::class);
+        $linkField = $entityMetadata->getLinkField();
 
         $select->from(['main' => $cmsPageTable], $columns);
-        $select->joinLeft(['store' => $storeTable],'store.page_id=main.page_id',['store_id']);
+        $select->joinLeft(['store' => $storeTable],'store.'.$linkField.'=main.'.$linkField,['store_id']);
 
         if(count($pageIds) > 0) {
-            $select->where('main.page_id IN (?)', $pageIds);
+            $select->where('main.'.$linkField.' IN (?)', $pageIds);
         }
         return $connection->fetchAll($select);
     }
@@ -56,14 +69,16 @@ class Helper extends \Magento\Framework\DB\Helper
     {
         $connection = $this->getConnection();
         $select = $connection->select();
-        $cmsBlockTable = $connection->getTableName("cms_block");
-        $storeTable = $connection->getTableName("cms_block_store");
+        $cmsBlockTable = $this->_resource->getTableName("cms_block");
+        $storeTable = $this->_resource->getTableName("cms_block_store");
+        $entityMetadata = $this->metadataPool->getMetadata(BlockInterface::class);
+        $linkField = $entityMetadata->getLinkField();
 
         $select->from(['main' => $cmsBlockTable],['*']);
-        $select->joinLeft(['store' => $storeTable],'store.block_id=main.block_id',['store_id']);
+        $select->joinLeft(['store' => $storeTable],'store.'.$linkField.'=main.'.$linkField,['store_id']);
 
         if(count($blockIds) > 0) {
-            $select->where('main.block_id IN (?)', $blockIds);
+            $select->where('main.'.$linkField.' IN (?)', $pageIds);
         }
         return $connection->fetchAll($select);
     }
