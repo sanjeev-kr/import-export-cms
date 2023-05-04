@@ -40,8 +40,8 @@ class Helper extends \Magento\Framework\DB\Helper
     {
         $connection = $this->getConnection();
         $select = $connection->select();
-        $cmsPageTable = $connection->getTableName("cms_page");
-        $storeTable = $connection->getTableName("cms_page_store");
+        $cmsPageTable = $this->_resource->getTableName("cms_page");
+        $storeTable = $this->_resource->getTableName("cms_page_store");
 
         $select->from(['main' => $cmsPageTable], $columns);
         $select->joinLeft(['store' => $storeTable],'store.page_id=main.page_id',['store_id']);
@@ -56,8 +56,8 @@ class Helper extends \Magento\Framework\DB\Helper
     {
         $connection = $this->getConnection();
         $select = $connection->select();
-        $cmsBlockTable = $connection->getTableName("cms_block");
-        $storeTable = $connection->getTableName("cms_block_store");
+        $cmsBlockTable = $this->_resource->getTableName("cms_block");
+        $storeTable = $this->_resource->getTableName("cms_block_store");
 
         $select->from(['main' => $cmsBlockTable],['*']);
         $select->joinLeft(['store' => $storeTable],'store.block_id=main.block_id',['store_id']);
