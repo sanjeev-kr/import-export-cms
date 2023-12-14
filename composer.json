@@ -1,7 +1,7 @@
 {
   "name": "sanjeev-kr/import-export-cms",
   "description": "magento 2 extension for import and export of cms blocks and pages.",
-  "version": "2.4.5",
+  "version": "2.4.6",
   "require": {
     "magento/module-cms": "104.0.*",
     "magento/module-backend": "*",
