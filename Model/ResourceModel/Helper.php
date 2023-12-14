@@ -78,7 +78,7 @@ class Helper extends \Magento\Framework\DB\Helper
         $select->joinLeft(['store' => $storeTable],'store.'.$linkField.'=main.'.$linkField,['store_id']);
 
         if(count($blockIds) > 0) {
-            $select->where('main.'.$linkField.' IN (?)', $pageIds);
+            $select->where('main.'.$linkField.' IN (?)', $blockIds);
         }
         return $connection->fetchAll($select);
     }
